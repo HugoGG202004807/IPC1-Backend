@@ -3,12 +3,19 @@ from types import MethodType
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from Gestor import Gestor
+#importaciones aparte
+from Publicaciones import Publicacion
+from Usuarios import Usuario
+import json
+import re
 
 #crear la app
 app= Flask(__name__)
 app.config["DEBUG"]=True
 CORS(app)
 gestor=Gestor()
+
+IngresarU=[]
 
 # EndPoints
 @app.route('/',methods=['GET'])
@@ -62,9 +69,9 @@ def actualizarusuario(email):
 @app.route('/actualizarpublicacion/<url>',methods=['PUT'])
 def actualizarpublicacion(url):
     dato = request.json
-    if gestor.actualizar_publicaciones(url,dato['type'],dato['url'],dato['date'],dato['category']):
-        return '{"data":"Actualizado"}'
-    return '{"data":"Error"}'
+    if gestor.actualizar_publicaciones(dato['type'],dato['url'],dato['date'],dato['category']):
+        return jsonify({"data":"Actualizado"})
+    return jsonify({"data":"Error"})
 
 
 @app.route('/login/<user>/<password>')
