@@ -15,8 +15,6 @@ app.config["DEBUG"]=True
 CORS(app)
 gestor=Gestor()
 
-IngresarU=[]
-
 # EndPoints
 @app.route('/',methods=['GET'])
 def home():
@@ -74,7 +72,7 @@ def actualizarpublicacion(url):
     return jsonify({"data":"Error"})
 
 
-@app.route('/login/<user>/<password>')
+@app.route('/login/<string:user>/<string:password>')
 def login(user,password):
     return gestor.iniciar_sesion(user,password)
         
@@ -90,8 +88,6 @@ def carga():
     dato = request.json
     gestor.cargamasiva(dato['data'])
     return '{"data":"Cargados"}'
-
-
 
 #INICIAR EL SERVIDOR 
 
