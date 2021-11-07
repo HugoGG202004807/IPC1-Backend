@@ -84,13 +84,14 @@ def registrar():
     return '{"data":"Creado"}'
 
 @app.route('/carga',methods=['POST'])
-def carga():
-    dato = request.json
-    gestor.cargamasiva(dato['data'])
+def carga():     
+    params=request.files['data']
+    for dato in params:
+        gestor.registrar_usuario(dato['name'],dato['gender'],dato['username'],dato['email'],dato['password'])
+    # if gestor.cargamasiva(dato['document']):
     return '{"data":"Cargados"}'
 
 #INICIAR EL SERVIDOR 
 
 if __name__== "__main__":
     app.run(host="0.0.0.0", debug=True)
-

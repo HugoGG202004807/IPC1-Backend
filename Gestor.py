@@ -1,3 +1,4 @@
+from flask.globals import request
 from Publicaciones import Publicacion
 from Usuarios import Usuario
 import json
@@ -94,10 +95,14 @@ class Gestor:
       self.usuarios.append(Usuario(name,  gender, username, email, password))
 
     def cargamasiva(self,data):
-        hola = re.split('\n',data)
-        print(hola[0])
+        params =json.load(request.files['document'])
+        hola = re.split('}',data)
+        # hola = json.loads(data)        
         i=1
+        # for i in len(hola):
+        #     self.crearUsuario(hola[i]['name'],hola[i]['gender'],hola[i]['username'],hola[i]['email'],hola[i]['password'])
+        # return True
         while i < len(hola):
-            texto = re.split(',',hola[i])
-            self.crearUsuario(texto[0],texto[1],texto[2],texto[3],texto[4])
+            texto = json.loads(data)
+            self.crearUsuario(texto["name"],texto["gender"],texto["username"],texto["email"],texto["password"])
             i = i+1 
